@@ -29,20 +29,31 @@
       ul {
         padding-left: 18px;
       }
+      #csv-output {
+        margin-top: 12px;
+        padding: 12px;
+        max-height: 320px;
+        overflow: auto;
+        white-space: pre-wrap;
+        word-break: break-all;
+        border-radius: 8px;
+        background: rgba(127, 127, 127, 0.1);
+        font-size: 13px;
+      }
+      #csv-output:empty {
+        display: none;
+      }
+      #select-csv-btn {
+        margin-top: 8px;
+      }
     </style>
   </head>
   <body>
     <div class="card">
-      <h1>Hello World</h1>
-      <p>If you can see this window, Electron is running.</p>
+      <h1>Transaction Cleaner</h1>
 
-      <h2>From preload</h2>
-      <p id="preload-msg">Loading…</p>
-
-      <h2>Versions</h2>
-      <ul id="versions"></ul>
-
-      <p>Try: <code>npm start</code></p>
+      <button type="button" id="select-csv-btn">Select CSV</button>
+      <pre id="csv-output"></pre>
     </div>
 
     <script>
@@ -56,6 +67,26 @@
         li.textContent = `${k}: ${v}`;
         ul.appendChild(li);
       }
+
+      const selectCsvBtn = document.getElementById("select-csv-btn");
+      const csvOutput = document.getElementById("csv-output");
+
+      selectCsvBtn.addEventListener("click", async () => {
+        if (!window.app?.selectCsvFile) return;
+        selectCsvBtn.disabled = true;
+        try {
+          const result = await window.app.selectCsvFile();
+          if (result.canceled) {
+            csvOutput.textContent = "No file selected.";
+          } else if (result.error) {
+            csvOutput.textContent = `Error: ${result.error}`;
+          } else {
+            csvOutput.textContent = `File: ${result.path}\n\n${result.content}`;
+          }
+        } finally {
+          selectCsvBtn.disabled = false;
+        }
+      });
     </script>
   </body>
 </html>
