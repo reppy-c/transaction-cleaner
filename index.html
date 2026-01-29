@@ -1,0 +1,62 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Electron Hello World</title>
+    <style>
+      :root {
+        color-scheme: light dark;
+      }
+      body {
+        font-family: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial,
+          sans-serif;
+        margin: 0;
+        padding: 24px;
+        line-height: 1.4;
+      }
+      .card {
+        max-width: 720px;
+        border: 1px solid rgba(127, 127, 127, 0.25);
+        border-radius: 12px;
+        padding: 20px;
+      }
+      code {
+        padding: 2px 6px;
+        border-radius: 6px;
+        background: rgba(127, 127, 127, 0.15);
+      }
+      ul {
+        padding-left: 18px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="card">
+      <h1>Hello World</h1>
+      <p>If you can see this window, Electron is running.</p>
+
+      <h2>From preload</h2>
+      <p id="preload-msg">Loading…</p>
+
+      <h2>Versions</h2>
+      <ul id="versions"></ul>
+
+      <p>Try: <code>npm start</code></p>
+    </div>
+
+    <script>
+      const msg = window.app?.hello?.() ?? "Preload not available";
+      document.getElementById("preload-msg").textContent = msg;
+
+      const versions = window.app?.versions ?? {};
+      const ul = document.getElementById("versions");
+      for (const [k, v] of Object.entries(versions)) {
+        const li = document.createElement("li");
+        li.textContent = `${k}: ${v}`;
+        ul.appendChild(li);
+      }
+    </script>
+  </body>
+</html>
+

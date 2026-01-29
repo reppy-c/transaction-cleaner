@@ -1,0 +1,29 @@
+{
+  "name": "transaction-cleaner",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Basic Electron hello world desktop app.",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "pack": "electron-builder --dir",
+    "dist": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "^33.2.1",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "com.example.transactioncleaner",
+    "productName": "Transaction Cleaner",
+    "files": [
+      "main.js",
+      "preload.js",
+      "index.html",
+      "package.json"
+    ],
+    "directories": {
+      "output": "dist"
+    }
+  }
+}
